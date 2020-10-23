@@ -9,15 +9,15 @@ namespace SpaceRanger
 {
     class Scene
     {
-        List<GameObject> _swarm;
+       public List<GameObject> Swarm { get; set; }
 
-        List<GameObject> _ground;
+        public List<GameObject> Ground { get; set; }
 
-        GameObject _playerShip;
+        public GameObject PlayerShip { get; set; }
 
-        List<GameObject> _playerShipMissile;
+        public List<GameObject> PlayerShipMissile { get; set; }
 
-        GameSettings _gameSettings;
+        private GameSettings _gameSettings;
 
         private static Scene _scene;
 
@@ -25,10 +25,11 @@ namespace SpaceRanger
 
         private Scene(GameSettings gameSettings) 
         {
-            _gameSettings = gameSettings;
-            _swarm =  new AlienShipFactory(_gameSettings).GetSwarm();
-            _ground = new GroundFactory(_gameSettings).GetGround();
-            _playerShip = new PlayerShipFactory(_gameSettings).GetPlayer();
+           _gameSettings = gameSettings;
+            Swarm =  new AlienShipFactory(_gameSettings).GetSwarm();
+            Ground = new GroundFactory(_gameSettings).GetGround();
+            PlayerShip = new PlayerShipFactory(_gameSettings).GetPlayer();
+            PlayerShipMissile = new List<GameObject>();
         }
 
         public static Scene GetScene(GameSettings gameSettings)
