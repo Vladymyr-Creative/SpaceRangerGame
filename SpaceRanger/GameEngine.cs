@@ -41,7 +41,7 @@ namespace SpaceRanger
         public void Run()
         {
             int swarmMoveCounter = 0;
-            int missileMoveCounter = 0;
+            int playerMissileMoveCounter = 0;
             do {
                 _sceneRender.Render(_scene);
                 Thread.Sleep(_gameSettings.GameSpeed);
@@ -53,12 +53,12 @@ namespace SpaceRanger
                     swarmMoveCounter = 0;
                 }
 
-                if (missileMoveCounter >= _gameSettings.PlayerShipMissileSpeed) {
+                if (playerMissileMoveCounter >= _gameSettings.PlayerShipMissileSpeed) {
                     CalculateMissileMove();
-                    missileMoveCounter = 0;
+                    playerMissileMoveCounter = 0;
                 }
 
-                missileMoveCounter++;
+                playerMissileMoveCounter++;
                 swarmMoveCounter++;
             } while (_isNotOver);
 
