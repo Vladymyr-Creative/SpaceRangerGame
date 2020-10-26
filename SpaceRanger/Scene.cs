@@ -9,7 +9,7 @@ namespace SpaceRanger
 {
     class Scene
     {
-       public List<GameObject> Swarm { get; set; }
+        public List<GameObject> Swarm { get; set; }
 
         public List<GameObject> Ground { get; set; }
 
@@ -23,10 +23,10 @@ namespace SpaceRanger
 
         private Scene() { }
 
-        private Scene(GameSettings gameSettings) 
+        private Scene(GameSettings gameSettings)
         {
-           _gameSettings = gameSettings;
-            Swarm =  new AlienShipFactory(_gameSettings).GetSwarm();
+            _gameSettings = gameSettings;
+            Swarm = new AlienShipFactory(_gameSettings).GetSwarm();
             Ground = new GroundFactory(_gameSettings).GetGround();
             PlayerShip = new PlayerShipFactory(_gameSettings).GetPlayer();
             PlayerShipMissile = new List<GameObject>();
@@ -38,6 +38,6 @@ namespace SpaceRanger
                 _scene = new Scene(gameSettings);
             }
             return _scene;
-        }
+        }        
     }
 }

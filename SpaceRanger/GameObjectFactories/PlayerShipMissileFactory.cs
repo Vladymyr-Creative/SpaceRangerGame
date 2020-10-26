@@ -15,9 +15,14 @@ namespace SpaceRanger.GameObjectFactories
         }
         public override GameObject GetGameObject(GameObjectPlace objectPlace) 
         {
+            GameObjectPlace missilePlace = new GameObjectPlace {
+                XCoordinate= objectPlace.XCoordinate,
+                YCoordinate=objectPlace.YCoordinate-1 
+            };
+
             GameObject playerShipMissileObject = new PlayerShipMissile() {
                 Figure = GameSettings.PlayerShipMissile,
-                GameObjectPlace = objectPlace,
+                GameObjectPlace = missilePlace,
                 GameObjectType = GameObjectType.PlayerShipMissile
             };
 

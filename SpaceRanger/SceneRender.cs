@@ -27,6 +27,7 @@ namespace SpaceRanger
 
         public void Render(Scene scene)
         {
+            ClearScreen();
             Console.SetCursorPosition(0, 0);
             AddListForRender(scene.Swarm);
             AddListForRender(scene.Ground);
@@ -51,7 +52,7 @@ namespace SpaceRanger
                 _screenMatrix[gameObject.GameObjectPlace.YCoordinate, gameObject.GameObjectPlace.XCoordinate] = gameObject.Figure;
             }
             else {
-                ;//_screenMatrix[gameObject.GameObjectPlace.YCoordinate, gameObject.GameObjectPlace.XCoordinate] = 'a';
+                ;// _screenMatrix[gameObject.GameObjectPlace.YCoordinate, gameObject.GameObjectPlace.XCoordinate] = 'a';
             }
         }
 
@@ -63,16 +64,21 @@ namespace SpaceRanger
         }
 
         public void ClearScreen()
+        { 
+            for (int y = 0; y < _screenHeight-1; y++) {
+                for (int x = 0; x < _screenWigth-1; x++) {
+                    _screenMatrix[y, x] = ' ';
+                }
+
+            }         
+            Console.SetCursorPosition(0, 0);
+        }
+
+        public void RenderGameOver()
         {
             StringBuilder stringBuilder = new StringBuilder();
-            for (int y = 0; y < _screenHeight; y++) {
-                for (int x = 0; x < _screenWigth; x++) {
-                    stringBuilder.Append(' ');
-                }
-                stringBuilder.Append(Environment.NewLine);
-            }
+            stringBuilder.Append("Game  Over!!!");
             Console.WriteLine(stringBuilder.ToString());
-            Console.SetCursorPosition(0, 0);
         }
     }
 }

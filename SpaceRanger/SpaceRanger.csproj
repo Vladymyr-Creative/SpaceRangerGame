@@ -57,10 +57,12 @@
     <Compile Include="GameObgects\GroundObject.cs" />
     <Compile Include="GameObgects\PlayerShip.cs" />
     <Compile Include="GameObgects\PlayerShipMissile.cs" />
+    <Compile Include="MusicController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scene.cs" />
     <Compile Include="SceneRender.cs" />
+    <Compile Include="UIController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
