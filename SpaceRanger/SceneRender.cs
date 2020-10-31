@@ -32,6 +32,7 @@ namespace SpaceRanger
             AddListForRender(scene.Swarm);
             AddListForRender(scene.Ground);
             AddListForRender(scene.PlayerShipMissile);
+            AddListForRender(scene.AlienShipMissile);
             AddGameObjectForRender(scene.PlayerShip);
 
             StringBuilder stringBuilder = new StringBuilder();

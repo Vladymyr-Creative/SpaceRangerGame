@@ -6,12 +6,7 @@ using System.Threading.Tasks;
 
 namespace SpaceRanger
 {
-    enum GameObjectType
+    class AlienShipMissile : GameObject
     {
-        AlienShip = 1,
-        AlienShipMissile=2,
-        PlayerShip = 3,
-        PlayerShipMissile = 4,
-        GroundObject = 5,
     }
 }

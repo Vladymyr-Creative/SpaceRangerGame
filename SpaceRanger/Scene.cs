@@ -17,6 +17,8 @@ namespace SpaceRanger
 
         public List<GameObject> PlayerShipMissile { get; set; }
 
+        public List<GameObject> AlienShipMissile { get; set; }
+
         private GameSettings _gameSettings;
 
         private static Scene _scene;
@@ -30,6 +32,7 @@ namespace SpaceRanger
             Ground = new GroundFactory(_gameSettings).GetGround();
             PlayerShip = new PlayerShipFactory(_gameSettings).GetPlayer();
             PlayerShipMissile = new List<GameObject>();
+            AlienShipMissile = new List<GameObject>();
         }
 
         public static Scene GetScene(GameSettings gameSettings)

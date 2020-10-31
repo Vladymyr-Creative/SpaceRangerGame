@@ -48,6 +48,8 @@
     <Compile Include="GameObgects\GameObject.cs" />
     <Compile Include="GameObgects\GameObjectPlace.cs" />
     <Compile Include="GameObgects\GameObjectType.cs" />
+    <Compile Include="GameObgects\AlienShipMissile.cs" />
+    <Compile Include="GameObjectFactories\AlienShipMissileFactory.cs" />
     <Compile Include="GameObjectFactories\PlayerShipMissileFactory.cs" />
     <Compile Include="GameObjectFactories\PlayerShipFactory.cs" />
     <Compile Include="GameObjectFactories\GroundFactory.cs" />
