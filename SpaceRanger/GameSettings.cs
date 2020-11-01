@@ -17,6 +17,8 @@ namespace SpaceRanger
         //**********************************************
         // GAME FIELD
         //**********************************************
+        public int GameFieldWidth { get; set; } = 80;
+        public int GameFieldHeight { get; set; } = 22;
         public int FieldStartXCoordinate { get; set; } = 1;
         public int FieldStartYCoordinate { get; set; } = 1;      
         
@@ -55,11 +57,11 @@ namespace SpaceRanger
         //**********************************************
         // GROUND
         //**********************************************
-        public int GroundStartXCoordinate { get; set; } = 1;
+        public int GroundStartXCoordinate { get; set; } = 10;
         public int GroundStartYCoordinate { get; set; } = 20;
-        public char Ground { get; set; } = '_';
+        public char Ground { get; set; } = '=';
         public int NumberOfGroundRows { get; set; } = 1;
-        public int NumberOfGroundColls { get; set; } = 80;
+        public int NumberOfGroundColls { get; set; } = 60;
 
         //**********************************************
         // GAME

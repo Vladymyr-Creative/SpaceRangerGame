@@ -11,6 +11,7 @@ namespace SpaceRanger
     class GameEngine
     {
         private bool _gameIsOver;
+        private Nullable<bool> _gameWin;
         private bool _gameReset;
         private bool _gamePaused;
         private bool _gameExit;
@@ -41,6 +42,15 @@ namespace SpaceRanger
             return _gameEngine;
         }
 
+        public void GameOver()
+        {
+            if (_gameWin != null) {
+                _sceneRender.RenderGameOver((bool)_gameWin);
+            }
+            Thread.Sleep(2000);
+            GameReset();
+        }
+
         public void GameReset()
         {
             SetDefaultGameState();
@@ -50,6 +60,7 @@ namespace SpaceRanger
 
         public void SetDefaultGameState()
         {
+            _gameWin = null;
             _gameIsOver = false;
             _gameReset = false;
             _gamePaused = false;
@@ -66,6 +77,27 @@ namespace SpaceRanger
         {
             _gameExit = true;
             _gameIsOver = true;
+        }
+
+        public void GameLose()
+        {
+            _gameWin = false;
+            _gameIsOver = true;
+        }
+
+        public void GameWin()
+        {
+            _gameWin = true;
+            _gameIsOver = true;
+        }
+        public void RenderGame()
+        {
+            _sceneRender.Render(_scene);
+            Dictionary<string, string> gameInfo = new Dictionary<string, string> {
+                ["Aliens"] = _scene.Swarm.Count.ToString(),
+                ["Ground"] = _scene.Ground.Count.ToString(),
+            };
+            _sceneRender.RenderGameInfo(gameInfo);
         }
 
         public void GamePause()
@@ -90,7 +122,7 @@ namespace SpaceRanger
                 if (_gamePaused) {
                     continue;
                 }
-                _sceneRender.Render(_scene);
+                RenderGame();
 
                 if (alienMissileShotCounter >= _gameSettings.AlienShipMissileFrequancy) {
                     AlienShot();
@@ -116,6 +148,10 @@ namespace SpaceRanger
                 alienMissileMoveCounter++;
                 playerMissileMoveCounter++;
                 swarmMoveCounter++;
+
+                if (_scene.Swarm.Count() == 0) {
+                    GameWin();
+                }
             } while (!_gameIsOver);
 
             if (_gameExit) {
@@ -125,7 +161,7 @@ namespace SpaceRanger
                 GameReset();
             }
             else {
-                _sceneRender.RenderGameOver();
+                GameOver();
             }
         }
 
@@ -150,7 +186,7 @@ namespace SpaceRanger
                 GameObject alienShip = _scene.Swarm[i];
                 alienShip.GameObjectPlace.YCoordinate++;
                 if (alienShip.GameObjectPlace.YCoordinate == _scene.PlayerShip.GameObjectPlace.YCoordinate) {
-                    _gameIsOver = true;
+                    GameLose();
                 }
             }
         }
@@ -165,18 +201,13 @@ namespace SpaceRanger
 
         public void AlienShot()
         {
-            if (_scene.Swarm.Count() == 0) {
-                _gameIsOver = true;
-            }
-            else {
-                var rand = new Random();
-                var alien = _scene.Swarm.ElementAt(rand.Next(_scene.Swarm.Count()));
-                GameObjectPlace alienPlace = alien.GameObjectPlace;
+            var rand = new Random();
+            var alien = _scene.Swarm.ElementAt(rand.Next(_scene.Swarm.Count()));
+            GameObjectPlace alienPlace = alien.GameObjectPlace;
 
-                AlienShipMissileFactory missileFactory = new AlienShipMissileFactory(_gameSettings);
-                GameObject missile = missileFactory.GetGameObject(alienPlace);
-                _scene.AlienShipMissile.Add(missile);
-            }
+            AlienShipMissileFactory missileFactory = new AlienShipMissileFactory(_gameSettings);
+            GameObject missile = missileFactory.GetGameObject(alienPlace);
+            _scene.AlienShipMissile.Add(missile);
         }
 
         public void CalculatePlayerMissileMove()
@@ -266,7 +297,7 @@ namespace SpaceRanger
 
                     GameObject playerShip = _scene.PlayerShip;
                     if (missile.GameObjectPlace.Equals(playerShip.GameObjectPlace)) {
-                        _gameIsOver = true;
+                        GameLose();
                     }
 
                     for (int j = 0; j < _scene.Ground.Count; j++) {
