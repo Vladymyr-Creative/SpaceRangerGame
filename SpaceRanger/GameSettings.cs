@@ -23,21 +23,21 @@ namespace SpaceRanger
         //**********************************************
         // ALIEN
         //**********************************************
-        public int NumberOfSwarmRows { get; set; } = 1;
-        public int NumberOfSwarmColls { get; set; } = 1;
+        public int NumberOfSwarmRows { get; set; } = 2;
+        public int NumberOfSwarmColls { get; set; } = 60;
 
         public int SwarmStartXCoordinate { get; set; } = 10;
         public int SwarmStartYCoordinate { get; set; } = 2;
 
         public char AlienShip { get; set; } = 'V';
-        public int SwarmSpeed { get; set; } = 23;
+        public int SwarmSpeed { get; set; } = 100;
 
         //**********************************************
         // ALIEN SHIP MISSILE
         //**********************************************
         public char AlienShipMissile { get; set; } = '.';
-        public int AlienShipMissileSpeed { get; set; } = 15;
-        public int AlienShipMissileFrequancy { get; set; } = 53;
+        public int AlienShipMissileSpeed { get; set; } = 5;
+        public int AlienShipMissileFrequancy { get; set; } = 100;
 
         //**********************************************
         // PLAYER SHIP

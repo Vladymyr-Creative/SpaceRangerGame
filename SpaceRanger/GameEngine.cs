@@ -48,25 +48,24 @@ namespace SpaceRanger
                 Thread.Sleep(_gameSettings.GameSpeed);
                 _sceneRender.Render(_scene);
 
-                if (playerMissileMoveCounter >= _gameSettings.PlayerShipMissileSpeed) {
-                    CalculatePlayerMissileMove();
-                    playerMissileMoveCounter = 0;
-                    _sceneRender.Render(_scene);
+                if (alienMissileShotCounter >= _gameSettings.AlienShipMissileFrequancy) {
+                    AlienShot();
+                    alienMissileShotCounter = 0;
                 }
 
                 if (alienMissileMoveCounter >= _gameSettings.AlienShipMissileSpeed) {
                     CalculateAlienMissileMove();
                     alienMissileMoveCounter = 0;
-                }                
+                }
 
                 if (swarmMoveCounter >= _gameSettings.SwarmSpeed) {
                     CalculateSwarmMove();
                     swarmMoveCounter = 0;                    
-                }
+                }                
 
-                if (alienMissileShotCounter >= _gameSettings.AlienShipMissileFrequancy) {
-                    AlienShot();
-                    alienMissileShotCounter = 0;                    
+                if (playerMissileMoveCounter >= _gameSettings.PlayerShipMissileSpeed) {
+                    CalculatePlayerMissileMove();
+                    playerMissileMoveCounter = 0;                 
                 }
 
                 alienMissileShotCounter++;
@@ -134,29 +133,72 @@ namespace SpaceRanger
             if (_scene.PlayerShipMissile.Count != 0) {
                 for (int i = 0; i < _scene.PlayerShipMissile.Count; i++) {
                     GameObject missile = _scene.PlayerShipMissile[i];
+                    bool missileGetTarget = false;
                     if (missile.GameObjectPlace.YCoordinate == _gameSettings.FieldStartYCoordinate) {
                         _scene.PlayerShipMissile.RemoveAt(i);
+                        missileGetTarget = true;
                     }
-                    
+
+                    if (missileGetTarget) {
+                        continue;
+                    }
                     for (int j = 0; j < _scene.Swarm.Count; j++) {
                         GameObject alienShip = _scene.Swarm[j];
                         if (missile.GameObjectPlace.Equals(alienShip.GameObjectPlace)) {
                             _scene.Swarm.RemoveAt(j);
                             _scene.PlayerShipMissile.RemoveAt(i);
+                            missileGetTarget = true;
                             break;
                         }
                     }
 
+                    if (missileGetTarget) {
+                        continue;
+                    }
                     for (int k = 0; k < _scene.AlienShipMissile.Count; k++) {
                         GameObject alienShipMissile = _scene.AlienShipMissile[k];
                         if (missile.GameObjectPlace.Equals(alienShipMissile.GameObjectPlace)) {
                             _scene.AlienShipMissile.RemoveAt(k);
                             _scene.PlayerShipMissile.RemoveAt(i);
+                            missileGetTarget = true;
                             break;
                         }
                     }
 
+                    if (missileGetTarget) {
+                        continue;
+                    }
                     missile.GameObjectPlace.YCoordinate--;
+                    if (missile.GameObjectPlace.YCoordinate == _gameSettings.FieldStartYCoordinate) {
+                        _scene.PlayerShipMissile.RemoveAt(i);
+                        missileGetTarget = true;
+                    }
+
+                    if (missileGetTarget) {
+                        continue;
+                    }
+                    for (int j = 0; j < _scene.Swarm.Count; j++) {
+                        GameObject alienShip = _scene.Swarm[j];
+                        if (missile.GameObjectPlace.Equals(alienShip.GameObjectPlace)) {
+                            _scene.Swarm.RemoveAt(j);
+                            _scene.PlayerShipMissile.RemoveAt(i);
+                            missileGetTarget = true;
+                            break;
+                        }
+                    }
+
+                    if (missileGetTarget) {
+                        continue;
+                    }
+                    for (int k = 0; k < _scene.AlienShipMissile.Count; k++) {
+                        GameObject alienShipMissile = _scene.AlienShipMissile[k];
+                        if (missile.GameObjectPlace.Equals(alienShipMissile.GameObjectPlace)) {
+                            _scene.AlienShipMissile.RemoveAt(k);
+                            _scene.PlayerShipMissile.RemoveAt(i);
+                            missileGetTarget = true;
+                            break;
+                        }
+                    }
                 }
             }
         }
@@ -169,6 +211,7 @@ namespace SpaceRanger
                     if (missile.GameObjectPlace.YCoordinate == _gameSettings.GroundStartYCoordinate) {
                         _scene.AlienShipMissile.RemoveAt(i);
                     }
+                    missile.GameObjectPlace.YCoordinate++;
 
                     GameObject playerShip = _scene.PlayerShip;
                     if (missile.GameObjectPlace.Equals(playerShip.GameObjectPlace)) {
@@ -182,9 +225,7 @@ namespace SpaceRanger
                             _scene.AlienShipMissile.RemoveAt(i);
                             break;
                         }
-                    }
-
-                    missile.GameObjectPlace.YCoordinate++;
+                    }                   
                 }
             }
         }
