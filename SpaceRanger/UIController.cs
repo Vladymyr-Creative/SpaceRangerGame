@@ -12,6 +12,7 @@ namespace SpaceRanger
         public event EventHandler OnRightPressed;
         public event EventHandler OnSpacePressed;
 
+        public event EventHandler OnKeyRPressed;
         public event EventHandler OnKeyQPressed;
         public event EventHandler OnEscPressed;
 
@@ -29,6 +30,10 @@ namespace SpaceRanger
 
                 if (key.Key.Equals(ConsoleKey.Spacebar)) {
                     OnSpacePressed?.Invoke(this, new EventArgs());
+                }
+
+                if (key.Key.Equals(ConsoleKey.R)) {
+                    OnKeyRPressed?.Invoke(this, new EventArgs());
                 }
 
                 if (key.Key.Equals(ConsoleKey.Q)) {

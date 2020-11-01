@@ -69,10 +69,18 @@ namespace SpaceRanger
         {
             for (int y = 0; y < _screenHeight-1; y++) {
                 for (int x = 0; x < _screenWigth-1; x++) {
-                    _screenMatrix[y, x] = ' ';
+                    _screenMatrix[y, x] = ':';
                 }
             }         
             Console.SetCursorPosition(0, 0);
+        }
+
+        public void RenderGameReset()
+        {
+            Console.Clear();
+            string message = "Game Reset...";
+            RenderMessage(message, ConsoleColor.Magenta);
+            Thread.Sleep(1000);
         }
 
         public void RenderGameOver()

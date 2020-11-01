@@ -35,6 +35,11 @@ namespace SpaceRanger
             AlienShipMissile = new List<GameObject>();
         }
 
+        public Scene Reset()
+        {
+            return new Scene(_gameSettings);
+        }
+
         public static Scene GetScene(GameSettings gameSettings)
         {
             if (_scene == null) {

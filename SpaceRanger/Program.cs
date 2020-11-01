@@ -17,7 +17,11 @@ namespace SpaceRanger
         static void Main(string[] args)
         {
             Initialize();
-            GameEngine.Run();
+            while (true) {                
+                GameEngine.Run();                
+                Thread.Sleep(1000);
+                Console.Clear();
+            }
         }
 
         public static void Initialize()
@@ -31,6 +35,7 @@ namespace SpaceRanger
             UIController.OnRightPressed += (obj, arg) => GameEngine.CalculateMovePlayerShipRight();
             UIController.OnSpacePressed += (obj, arg) => GameEngine.PlayerShot();
 
+            UIController.OnKeyRPressed += (obj, arg) => GameEngine.SetGameReset();
             UIController.OnKeyQPressed += (obj, arg) => GameEngine.GameQuit();
             UIController.OnEscPressed += (obj, arg) => GameEngine.GamePause();
 

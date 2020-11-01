@@ -10,9 +10,10 @@ namespace SpaceRanger
 {
     class GameEngine
     {
-        private bool _gameIsOver = false;
-        private bool _gamePaused = false;
-        private bool _gameExit = false;
+        private bool _gameIsOver;
+        private bool _gameReset;
+        private bool _gamePaused;
+        private bool _gameExit;
 
         private static GameEngine _gameEngine;
 
@@ -26,6 +27,7 @@ namespace SpaceRanger
 
         private GameEngine(GameSettings gameSettings)
         {
+            SetDefaultGameState();
             _scene = Scene.GetScene(gameSettings);
             _sceneRender = new SceneRender(gameSettings);
             _gameSettings = gameSettings;
@@ -39,19 +41,41 @@ namespace SpaceRanger
             return _gameEngine;
         }
 
-        public void GameQuit()
+        public void GameReset()
         {
-            _gameExit = true;            
+            SetDefaultGameState();
+            _scene = _scene.Reset();
+            _sceneRender.RenderGameReset();
+        }
+
+        public void SetDefaultGameState()
+        {
+            _gameIsOver = false;
+            _gameReset = false;
+            _gamePaused = false;
+            _gameExit = false;
+        }
+
+        public void SetGameReset()
+        {
+            _gameReset = true;
             _gameIsOver = true;
         }
 
-        public void GamePause ()
+        public void GameQuit()
+        {
+            _gameExit = true;
+            _gameIsOver = true;
+        }
+
+        public void GamePause()
         {
             _gamePaused = !_gamePaused;
             if (_gamePaused) {
                 _sceneRender.RenderGamePaused();
-            } else {
-                Console.Clear();                
+            }
+            else {
+                Console.Clear();
             }
         }
 
@@ -80,12 +104,12 @@ namespace SpaceRanger
 
                 if (swarmMoveCounter >= _gameSettings.SwarmSpeed) {
                     CalculateSwarmMove();
-                    swarmMoveCounter = 0;                    
-                }                
+                    swarmMoveCounter = 0;
+                }
 
                 if (playerMissileMoveCounter >= _gameSettings.PlayerShipMissileSpeed) {
                     CalculatePlayerMissileMove();
-                    playerMissileMoveCounter = 0;                 
+                    playerMissileMoveCounter = 0;
                 }
 
                 alienMissileShotCounter++;
@@ -96,7 +120,11 @@ namespace SpaceRanger
 
             if (_gameExit) {
                 _sceneRender.RenderGameExit();
-            } else {
+            }
+            else if (_gameReset) {
+                GameReset();
+            }
+            else {
                 _sceneRender.RenderGameOver();
             }
         }
@@ -248,7 +276,7 @@ namespace SpaceRanger
                             _scene.AlienShipMissile.RemoveAt(i);
                             break;
                         }
-                    }                   
+                    }
                 }
             }
         }
