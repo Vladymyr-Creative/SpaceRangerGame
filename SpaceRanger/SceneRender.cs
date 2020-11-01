@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SpaceRanger
@@ -65,21 +66,42 @@ namespace SpaceRanger
         }
 
         public void ClearScreen()
-        { 
+        {
             for (int y = 0; y < _screenHeight-1; y++) {
                 for (int x = 0; x < _screenWigth-1; x++) {
                     _screenMatrix[y, x] = ' ';
                 }
-
             }         
             Console.SetCursorPosition(0, 0);
         }
 
         public void RenderGameOver()
         {
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append("Game  Over!!!");
-            Console.WriteLine(stringBuilder.ToString());
+            string message = "Game Over...";
+            RenderMessage(message, ConsoleColor.Yellow);
+        }
+
+        public void RenderGameExit()
+        {
+            Console.Clear();
+            string message = "GoodBuy!!!";
+            RenderMessage(message, ConsoleColor.Yellow);
+            Thread.Sleep(1000);
+            Environment.Exit(0);
+        }
+
+        public void RenderGamePaused()
+        {
+            string message = " Pause ||";
+            RenderMessage(message, ConsoleColor.Green);
+        }
+
+        public void RenderMessage(string message, ConsoleColor consoleColor= ConsoleColor.White)
+        {
+            ConsoleColor prevConsoleColor = Console.ForegroundColor;
+            Console.ForegroundColor = consoleColor;            
+            Console.WriteLine(message);
+            Console.ForegroundColor = prevConsoleColor;
         }
     }
 }

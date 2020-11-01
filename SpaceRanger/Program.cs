@@ -31,6 +31,9 @@ namespace SpaceRanger
             UIController.OnRightPressed += (obj, arg) => GameEngine.CalculateMovePlayerShipRight();
             UIController.OnSpacePressed += (obj, arg) => GameEngine.PlayerShot();
 
+            UIController.OnKeyQPressed += (obj, arg) => GameEngine.GameQuit();
+            UIController.OnEscPressed += (obj, arg) => GameEngine.GamePause();
+
             Thread musicTread = new Thread(MusicController.PlayBackgroundMusic);
             Thread uITread = new Thread(UIController.StartListerning);
             musicTread.Start();

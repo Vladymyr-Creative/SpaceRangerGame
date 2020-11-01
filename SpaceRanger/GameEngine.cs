@@ -10,7 +10,9 @@ namespace SpaceRanger
 {
     class GameEngine
     {
-        private bool _isNotOver;
+        private bool _gameIsOver = false;
+        private bool _gamePaused = false;
+        private bool _gameExit = false;
 
         private static GameEngine _gameEngine;
 
@@ -24,7 +26,6 @@ namespace SpaceRanger
 
         private GameEngine(GameSettings gameSettings)
         {
-            _isNotOver = true;
             _scene = Scene.GetScene(gameSettings);
             _sceneRender = new SceneRender(gameSettings);
             _gameSettings = gameSettings;
@@ -38,6 +39,22 @@ namespace SpaceRanger
             return _gameEngine;
         }
 
+        public void GameQuit()
+        {
+            _gameExit = true;            
+            _gameIsOver = true;
+        }
+
+        public void GamePause ()
+        {
+            _gamePaused = !_gamePaused;
+            if (_gamePaused) {
+                _sceneRender.RenderGamePaused();
+            } else {
+                Console.Clear();                
+            }
+        }
+
         public void Run()
         {
             int swarmMoveCounter = 0;
@@ -46,6 +63,9 @@ namespace SpaceRanger
             int alienMissileShotCounter = 0;
             do {
                 Thread.Sleep(_gameSettings.GameSpeed);
+                if (_gamePaused) {
+                    continue;
+                }
                 _sceneRender.Render(_scene);
 
                 if (alienMissileShotCounter >= _gameSettings.AlienShipMissileFrequancy) {
@@ -72,10 +92,13 @@ namespace SpaceRanger
                 alienMissileMoveCounter++;
                 playerMissileMoveCounter++;
                 swarmMoveCounter++;
-            } while (_isNotOver);
+            } while (!_gameIsOver);
 
-            Console.ForegroundColor = ConsoleColor.Red;
-            _sceneRender.RenderGameOver();
+            if (_gameExit) {
+                _sceneRender.RenderGameExit();
+            } else {
+                _sceneRender.RenderGameOver();
+            }
         }
 
         public void CalculateMovePlayerShipLeft()
@@ -99,7 +122,7 @@ namespace SpaceRanger
                 GameObject alienShip = _scene.Swarm[i];
                 alienShip.GameObjectPlace.YCoordinate++;
                 if (alienShip.GameObjectPlace.YCoordinate == _scene.PlayerShip.GameObjectPlace.YCoordinate) {
-                    _isNotOver = false;
+                    _gameIsOver = true;
                 }
             }
         }
@@ -115,7 +138,7 @@ namespace SpaceRanger
         public void AlienShot()
         {
             if (_scene.Swarm.Count() == 0) {
-                _isNotOver = false;
+                _gameIsOver = true;
             }
             else {
                 var rand = new Random();
@@ -215,7 +238,7 @@ namespace SpaceRanger
 
                     GameObject playerShip = _scene.PlayerShip;
                     if (missile.GameObjectPlace.Equals(playerShip.GameObjectPlace)) {
-                        _isNotOver = false;
+                        _gameIsOver = true;
                     }
 
                     for (int j = 0; j < _scene.Ground.Count; j++) {

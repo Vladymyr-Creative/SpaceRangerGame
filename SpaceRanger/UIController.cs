@@ -12,6 +12,9 @@ namespace SpaceRanger
         public event EventHandler OnRightPressed;
         public event EventHandler OnSpacePressed;
 
+        public event EventHandler OnKeyQPressed;
+        public event EventHandler OnEscPressed;
+
         public void StartListerning()
         {
             while (true) {
@@ -26,6 +29,14 @@ namespace SpaceRanger
 
                 if (key.Key.Equals(ConsoleKey.Spacebar)) {
                     OnSpacePressed?.Invoke(this, new EventArgs());
+                }
+
+                if (key.Key.Equals(ConsoleKey.Q)) {
+                    OnKeyQPressed?.Invoke(this, new EventArgs());
+                }
+
+                if (key.Key.Equals(ConsoleKey.Escape)) {
+                    OnEscPressed?.Invoke(this, new EventArgs());
                 }
             }
         }
